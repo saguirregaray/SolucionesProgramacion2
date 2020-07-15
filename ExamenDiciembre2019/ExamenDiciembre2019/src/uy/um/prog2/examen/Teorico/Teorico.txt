@@ -1,0 +1,91 @@
+1-Escriba un pseudocódigo del algoritmo de recorrida InOrder para un árbol binario. (1 punto)
+
+        printInOrder(node)
+            if node == null
+                return
+            printInOrder(node.left)
+            print(node.value)
+            printInOrder(node.right)
+
+2. Explique para que es de utilidad una función de colisión cuando se dispone de un Hash cerrado.
+Indique al menos un ejemplo de función. (1 punto)
+
+        Una colision se produce cuando dos entradas distintas a una funcion de hash producen la misma salida y, por lo tanto,
+        tendrian que estar en el mismo lugar en el hash. Las colisiones son inevitables si no conocemos la data de antemano porque el dominio
+        del input a la funcion de hash es infinito pero la salida esta acotada por el tamaño del hash.
+        (Tema cool relacionado para el que quiera: perfect hash functions).
+
+        En un hash cerrado las colisiones se solucionan aplicando una segunda funcion llamada funcion de colision, cuya utilidad
+        es enviar el elemento que colisionó a otra posicion en el hash.
+
+        La funcion de colision  optima depende de los datos, si todos los datos estan cerca en el hash entonces lo mejor seria usar
+        una funcion de hash que envie a los colisionados lo mas lejos posible (una funcion cuadratica por ejemplo)
+
+3. Para poder mantener el O(1) al realizar una operación de obtención de datos (get) en una estructura de Hash
+ es necesario que se cumpla algunas condiciones. Indique 2 condiciones que deben cumplirse. (1 punto)
+
+     Que sea O(1) significa que va a tener la misma performance con 1 dato que con 100000, el tiempo que lleva ejecutar
+     no depende de la cantidad de datos del hash, para que se cumpla eso:
+
+     -Tienen que haber pocas colisiones (Si es un hash abierto y se agregan a una linked list, el orden seria O(n) siendo n
+     la cantidad de nodos en esa lista por ejemplo, ahi es mas lento si las listas de colisiones crecen)
+    (Tema cool relacionado: Universal hashing)
+
+     -La funcion de hash debe poder calcularse en O(1)
+     (Si mi funcion de hash por ejemplo CALCULA (no es lo mismo que tener un atributo, eso esta ok)
+      el largo para retornar el hashcode, eso no es O(1) porque esta recorriendo.)
+
+4. Realice un seudocódigo del algoritmo de Dijkstra para grafos no ponderados.
+Describa el TAD grafo que datos requiere para realizar el algoritmo. (1 punto)
+
+    El algoritmo de Dijkstra para grafos no ponderados es el de grafos ponderados donde todas las aristas valen 1.
+
+    function dijkstra(G, S)
+        for each vertex V in G
+            distance[V] = infinite
+            previous[V] = NULL
+            If V != S, add V to Priority Queue Q
+        distance[S] = 0
+
+        while Q IS NOT EMPTY
+            U = Extract MIN from Q
+            for each unvisited neighbour V of U
+                tempDistance = distance[U] + 1          // 1 = edgeWeight
+                if tempDistance < distance[V]
+                    distance[V] = tempDistance
+                    previous[V] = U
+        return distance[], previous[]
+
+    El TAD grafo que se usa en este caso esta representado como una lista de adyacencia, cada nodo tiene una linked list con los nodos
+    adyacentes (neighbours) a el.
+
+5. Indique la definició n de la notació n Big-O y porque es de utilidad en el aná lisis de algoritmos y calcule Big-O para el algoritmo a continuación. (1 punto)
+
+
+    La notacion big O indica la cota superior del crecimiento con respecto a los datos del tiempo de ejecucion, por ejemplo:
+
+    Recorrer un array con un elemento solo me lleva una iteracion pero si tengo 10 elementos me lleva 10 iteraciones,
+    asi para cualquier n -> por lo tanto recorrer un array es O(n) porque crece linealmente con la cantidad de elemtnos que tengo.
+
+    Buscar en un binary search tree en cambio es O(log n) en promedio poooorque siempre vamos dividiendo la busqueda a la mitad:
+    Si tengo 8 elementos (2^3) y el numero que busco esta en una hoja, para llegar primero divido los elementos en 2 y tengo 4,
+    los divido otra vez y tengo 2, y una ultima vez y tengo 1. Esto me llevo recorrer 3 nodos -> O(3) = O(log(2^3))
+
+
+    int x = 0;                          //1
+    for (int j = 1; j < n; j++) {       //n - 1
+    if (j%2==0)  {                       //1
+     x = x +1;                         // 1
+    }
+    }
+
+    El big O de ese algoritmo es O(n):
+    La primer linea es una asignacion asi que se hace en O(1)
+    La ssegunda linea es un for, por lo tanto se va a ejecutar tantas veces como j<n, como j arranca en 1 esto es n - 1 veces -> O(n), el -1 es despreciable
+    La tercer linea ejecuta un calculo siempre que entra al for -> O(1)
+    La cuarta linea es una asignacion -> O(1)
+
+    -> O(1) + O(n)[O(1) + O(1)] //los O(1) son despreciables en relacion a los otros
+    -> O(n)O(2) = O(n)  //n*constante es O(n) igual
+
+
